@@ -1,0 +1,48 @@
+version: '3.2'
+services:
+
+  redis:
+    container_name: tdd-redis
+    image: library/redis:6.0.5
+    restart: always
+    tty: true
+    ports:
+      - 6378:6379
+
+  mysql:
+    container_name: tdd-mysql
+    image: library/mysql:5.7
+    tty: true
+    expose:
+      - 3306
+    ports:
+      - 3306:3306
+    volumes:
+      - data-mysql:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+
+  api:
+    container_name: tdd-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/html:rw
+    #env_file: env-local/.env
+    ports:
+      - 80:80
+      - 443:443
+    links:
+      - redis
+      - mysql
+    tty: true
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST} idekey=VSCODE
+
+volumes:
+  data-mysql: {}
