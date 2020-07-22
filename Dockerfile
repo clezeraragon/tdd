@@ -41,16 +41,19 @@ RUN apt-get update && \
     php${PHP_VERSION}-mbstring \
     php${PHP_VERSION}-opcache \
     php${PHP_VERSION}-bcmath \
-    php-xdebug
-# install xDebug
+    php-dev
+
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     chmod +x /usr/local/bin/composer
 
+RUN pecl install swoole
+
 # PHP-FPM
 ADD docker/conf/php.ini /etc/php/${PHP_VERSION}/fpm/php.ini
+ADD docker/conf/php.ini /etc/php/${PHP_VERSION}/cli/php.ini
 ADD docker/conf/www.conf /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
-ADD docker/conf/xdebug.ini /etc/php/${PHP_VERSION}/mods-available/xdebug.ini
+
 
 # NGINX config files
 ADD docker/conf/nginx.conf /etc/nginx/nginx.conf
@@ -78,10 +81,12 @@ RUN chmod 755 /usr/bin/start.sh && \
 ADD . /var/www/html/
 
 # Expose port
-EXPOSE 80
+EXPOSE 80 1215
 
 # Set the workdir
 WORKDIR /var/www/html
 
 # Start the container
 CMD ["start.sh"]
+
+

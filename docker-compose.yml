@@ -7,7 +7,7 @@ services:
     restart: always
     tty: true
     ports:
-      - 6378:6379
+      - 6379:6379
 
   mysql:
     container_name: tdd-mysql
@@ -36,13 +36,12 @@ services:
     #env_file: env-local/.env
     ports:
       - 80:80
+      - 1215:1215
       - 443:443
     links:
       - redis
       - mysql
     tty: true
-    environment:
-      XDEBUG_CONFIG: remote_host=${XDEBUG_REMOTE_HOST} idekey=VSCODE
 
 volumes:
   data-mysql: {}
