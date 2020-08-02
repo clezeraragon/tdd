@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
+Route::namespace('User')->group(function () {
+    Route::resource('/user', 'UserController');
 });
 
 

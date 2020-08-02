@@ -85,7 +85,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api/v1')
             ->middleware('api')
-            ->namespace("{$this->namespace}\Api\V1")
+            ->namespace("{$this->namespace}")
             ->group(base_path('routes/api/v1/public.php'));
     }
 
@@ -93,7 +93,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api/v1')
             ->middleware(['api', 'auth:api'])
-            ->namespace("{$this->namespace}\Api\V1")
+            ->namespace("{$this->namespace}")
             ->group(base_path('routes/api/v1/private.php'));
     }
 }
