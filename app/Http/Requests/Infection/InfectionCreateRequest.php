@@ -26,7 +26,7 @@ class InfectionCreateRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|unique:users',
-            'title' => 'required',
+            'title' => 'required|unique:pathologies',
             'gravity' => 'required',
             'cured' => 'required'
         ];
@@ -38,6 +38,7 @@ class InfectionCreateRequest extends FormRequest
             'email.required' => "O campo email é obrigatório!",
             'email.unique' => "Este email já se encontra em nossa base!",
             'title.required' => "O campo title é obrigatório!",
+            'title.unique' => "Esta patologia já existe em nossa base!",
             'gravity.required' => "O campo gravity é obrigatório!",
             'cured.required' => "O campo cured é obrigatório!",
         ];
