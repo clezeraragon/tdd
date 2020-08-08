@@ -18,5 +18,13 @@ Route::namespace('User')->group(function () {
     Route::resource('/user', 'UserController');
 });
 
+Route::namespace('Pathology')->group(function () {
+    Route::resource('/pathology','PathologyController');
+});
+
+Route::namespace('Infection')->group(function () {
+    Route::resource('/infection','InfectionController');
+});
+
 
 

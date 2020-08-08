@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Infection;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserUpdateRequest extends FormRequest
+class InfectionCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,8 +25,10 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => "required|email|unique:users,email,{$this->get('id')}",
-            'password' => ''
+            'email' => 'required|unique:users',
+            'title' => 'required',
+            'gravity' => 'required',
+            'cured' => 'required'
         ];
     }
     public function messages()
@@ -34,8 +36,10 @@ class UserUpdateRequest extends FormRequest
         return [
             'name.required' => "O campo name é obrigatório!",
             'email.required' => "O campo email é obrigatório!",
-            'email.email' => "O campo email é inválido!",
             'email.unique' => "Este email já se encontra em nossa base!",
+            'title.required' => "O campo title é obrigatório!",
+            'gravity.required' => "O campo gravity é obrigatório!",
+            'cured.required' => "O campo cured é obrigatório!",
         ];
     }
 }

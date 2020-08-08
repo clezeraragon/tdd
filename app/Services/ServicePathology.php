@@ -4,16 +4,16 @@
 namespace App\Services;
 
 
-use App\Models\User;
+use App\Models\Pathology;
 use DB;
 
-class ServiceUser
+class ServicePathology
 {
-    private $user;
+    private Pathology $pathology;
 
-    public function  __construct(User $user)
+    public function  __construct(Pathology $pathology)
     {
-        $this->user = $user;
+        $this->pathology = $pathology;
     }
 
     public function store($request)
@@ -22,7 +22,7 @@ class ServiceUser
 
             DB::beginTransaction();
 
-            $this->user->create($request->all());
+            $this->pathology->create($request->all());
 
             DB::commit();
             return response()->json(["success" => "Registro criado com sucesso"],201);
@@ -33,13 +33,13 @@ class ServiceUser
         }
     }
 
-    public function update($request,$user)
+    public function update($request,$pathology)
     {
         try {
 
             DB::beginTransaction();
 
-            $this->user->find($user)->update($request->all());
+            $this->pathology->find($pathology)->update($request->all());
 
             DB::commit();
             return response()->json(["success" => "Registro atualizado com sucesso"],202);
@@ -50,18 +50,17 @@ class ServiceUser
         }
     }
 
-    public function destroy($user)
+    public function destroy($pathololy)
     {
 
         try {
 
             DB::beginTransaction();
 
-            $result = $this->user->findOrFail($user);
+            $result = $this->pathology->findOrFail($pathololy);
 
             $result->users_x_pathology()->delete();
             $result->delete();
-
 
             DB::commit();
             return response()->json(["success" => "Registro removido com sucesso"],202);
@@ -69,7 +68,6 @@ class ServiceUser
         }catch (\Exception $exception) {
             DB::rollback();
             return response()->json(['errors' => $exception->getMessage()],403);
-
         }
     }
 
